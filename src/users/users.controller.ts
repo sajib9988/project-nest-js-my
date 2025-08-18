@@ -11,6 +11,7 @@ constructor(
 
     @Post()
    async create (@Body()createUserDto: CreateUserDto){
+    console.log(createUserDto);
     return this.userService.createUser(createUserDto);
    }
 }

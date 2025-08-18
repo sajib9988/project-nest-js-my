@@ -1,0 +1,31 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id    Int     @default(autoincrement()) @id
+  email String  @unique
+  password String
+  name  String?
+  
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  price       Float
+  stock       Int      @default(0)
+  image       String?   // image url বা path রাখা যাবে
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

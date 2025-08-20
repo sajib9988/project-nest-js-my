@@ -20,7 +20,11 @@ export class AuthController {
       sameSite: 'strict',
       secure: true,
     });
-    return { message: 'Login successful' };
+    return { 
+      message: 'Login successful',
+      accessToken,
+      refreshToken
+    };
   }
 
  @Post('refresh')

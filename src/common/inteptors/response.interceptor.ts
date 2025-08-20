@@ -25,10 +25,19 @@ export class ResponseInterceptor<T>
 
     return next.handle().pipe(
       map((data) => {
+        // If controller returns an object with message, accessToken, refreshToken, etc., include all
+        if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
+          return {
+            statusCode,
+            messages: data?.messages || [],
+            data: { ...data },
+          };
+        }
+        // fallback for other types
         return {
           statusCode,
-          messages: data?.messages || [],
-          data: data?.data ?? data,
+          messages: [],
+          data,
         };
       }),
     );

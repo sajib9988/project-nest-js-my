@@ -19,13 +19,24 @@ model User {
   createdAt DateTime @default(now())
 }
 
+// prisma/schema.prisma
+
 model Product {
   id          Int      @id @default(autoincrement())
   name        String
-  description String?
+  description String
   price       Float
-  stock       Int      @default(0)
-  image       String?   // image url বা path রাখা যাবে
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  images      ProductImage[] 
+}
+
+model ProductImage {
+  id        Int      @id @default(autoincrement())
+  url       String
+  createdAt DateTime @default(now())
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
 }

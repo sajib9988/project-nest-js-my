@@ -1,4 +1,3 @@
-// src/common/interceptors/response.interceptor.ts
 import {
   CallHandler,
   ExecutionContext,
@@ -25,15 +24,24 @@ export class ResponseInterceptor<T>
 
     return next.handle().pipe(
       map((data) => {
-        // If controller returns an object with message, accessToken, refreshToken, etc., include all
         if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
+          // 👇 এখানে টাইপ স্পষ্ট করে দেওয়া হলো
+          let messages: { message: string; property: string }[] = [];
+
+          if (data.message) {
+            messages.push({
+              message: data.message,
+              property: 'success',
+            });
+          }
+
           return {
             statusCode,
-            messages: data?.messages || [],
+            messages: data?.messages || messages,
             data: { ...data },
           };
         }
-        // fallback for other types
+
         return {
           statusCode,
           messages: [],

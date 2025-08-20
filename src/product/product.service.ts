@@ -33,12 +33,17 @@ export class ProductsService {
 
       // last step is to return the created product with its images
       // this will include the images in the response
-      return tx.product.findUnique({
+      const createdProduct = await tx.product.findUnique({
         where: { id: product.id },
         include: {
           images: true, 
         },
       });
+
+      return {
+        message: 'Product created successfully',
+        ...createdProduct
+      };
     });
   }
 }

@@ -17,6 +17,7 @@ export class ProductsService {
           name: createProductDto.name,
           description: createProductDto.description,
           price: createProductDto.price,
+          stock: createProductDto.stock || 0, // default stock to 0 if not provided
         },
       });
 
@@ -41,8 +42,11 @@ export class ProductsService {
       });
 
       return {
+        statusCode: 201,
         message: 'Product created successfully',
-        ...createdProduct
+        data: {
+          ...createdProduct
+        }
       };
     });
   }

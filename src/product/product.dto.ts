@@ -10,4 +10,7 @@ export class ProductDto {
 
     @IsNumber()
     price: number;
+
+    @IsNumber()
+    stock: number; // Optional field for stock quantity, default to 0 in the database
 }

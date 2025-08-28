@@ -9,7 +9,7 @@ export class UsersService {
 
   // ✅ নতুন user তৈরি
   async createUser(createUserDto: CreateUserDto) {
-    const { name, email, password } = createUserDto;
+    const { name, email, password, role } = createUserDto;
 
     // duplicate email check
     const existingUser = await this.prismaService.user.findUnique({
@@ -28,6 +28,7 @@ export class UsersService {
         name,
         email,
         password: hashedPassword,
+        role: role || 'USER',
       },
     });
 
@@ -43,6 +44,14 @@ export class UsersService {
   async findByEmail(email: string) {
     return this.prismaService.user.findUnique({
       where: { email },
+      select: {
+        id: true,
+        email: true,
+        password: true,
+        name: true,
+        createdAt: true,
+        role: true,
+      },
     });
   }
 

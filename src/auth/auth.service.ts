@@ -24,7 +24,7 @@ export class AuthService {
     if (!isMatch) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, role: user.role };
     const accessToken = await this.jwtService.signAsync(payload, {
       secret: 'ACCESS_SECRET',
       expiresIn: '15m',
@@ -40,7 +40,7 @@ export class AuthService {
     try {
       const payload = await this.jwtService.verifyAsync(token, { secret: 'REFRESH_SECRET' });
       const newAccess = await this.jwtService.signAsync(
-        { sub: payload.sub, email: payload.email },
+        { sub: payload.sub, email: payload.email, role: payload.role },
         { secret: 'ACCESS_SECRET', expiresIn: '15m' },
       );
       return { accessToken: newAccess };

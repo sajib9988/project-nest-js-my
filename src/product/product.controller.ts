@@ -10,6 +10,10 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { ProductsService } from './product.service';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ProductDto } from './product.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudianary.service';
@@ -22,6 +26,8 @@ export class ProductController {
   ) {}
 
   @Post('create')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('ADMIN')
   @UseInterceptors(FilesInterceptor('files', 5))
   async createProduct(
     @Body('data') data: string,

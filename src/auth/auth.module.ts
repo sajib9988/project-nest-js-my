@@ -10,6 +10,7 @@ import { AuthGuard } from './auth.guard';
 @Module({
   imports: [JwtModule.register({})],
   providers: [AuthService, UsersService, PrismaService, AuthGuard],
-  controllers: [AuthController]
+  controllers: [AuthController],
+  exports: [AuthGuard, JwtModule],
 })
 export class AuthModule {}
